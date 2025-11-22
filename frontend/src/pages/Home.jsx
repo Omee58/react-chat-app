@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { getLocalData, setLocalData } from "../utils/localStorage";
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:5000", { path: "/socket.io" });
+const socket = io("https://react-chat-app-jz96.onrender.com/", { path: "/socket.io" });
 
 export default function Home() {
 
@@ -47,7 +47,7 @@ export default function Home() {
 
 
         socket.on("connect", () => {
-            // console.log("Connected:", socket.id);
+            console.log("Connected:", socket.id);
         });
 
         return () => {
