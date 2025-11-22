@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { getLocalData, setLocalData } from "../utils/localStorage";
 import { io } from "socket.io-client";
 
-const socket = io("https://react-chat-app-jz96.onrender.com/", { path: "/socket.io" });
+const socket = io("https://react-chat-app-jz96.onrender.com", {
+    transports: ["websocket"],
+});
 
 export default function Home() {
 

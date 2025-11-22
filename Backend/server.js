@@ -1,30 +1,50 @@
-const express = require("express");
-const { Server } = require("socket.io");
 const http = require("http");
 const cors = require("cors");
-const configSocketIO = require("./controllers/chat.controller");
+const { Server } = require("socket.io");
+
+// Express app from app.js
 const app = require("./app");
 
-// Express CORS
-app.use(cors({
-    origin: ["https://omee-chat-app.netlify.app/", "http:localhost:3000", "http:localhost:5173"],
-    origin: "*",
-    methods: ["GET", "POST"]
-}));
+// ----------------------
+// CORS for Express APIs
+// ----------------------
+app.use(
+    cors({
+        origin: [
+            "https://omee-chat-app.netlify.app",
+            "http://localhost:3000",
+            "http://localhost:5173"
+        ],
+        methods: ["GET", "POST"],
+    })
+);
 
+// Create HTTP server
 const server = http.createServer(app);
 
-// Socket CORS
+// ----------------------
+// Socket.io Setup + CORS
+// ----------------------
 const io = new Server(server, {
     cors: {
-        origin: ["https://omee-chat-app.netlify.app/", "http:localhost:3000", "http:localhost:5173"],
-        methods: ["GET", "POST"]
-    }
+        origin: [
+            "https://omee-chat-app.netlify.app",
+            "http://localhost:3000",
+            "http://localhost:5173"
+        ],
+        methods: ["GET", "POST"],
+    },
 });
 
-// configSocketIO(io);
+// socket logic
+const configSocketIO = require("./controllers/chat.controller");
 configSocketIO(io);
 
-server.listen(5000, () => {
-    console.log("Server running on port 5000");
+// ----------------------
+// PORT (Local + Render)
+// ----------------------
+const PORT = process.env.PORT || 5000;
+
+server.listen(PORT, () => {
+    console.log("🔥 Server running on port:", PORT);
 });
